@@ -2,7 +2,7 @@ const _ = require('lodash');
 
 module.exports = ({
   variants = {},
-  pin = {},
+  offset = {},
   flexGrow = {},
   flexShrink = {},
   order = {},
@@ -13,11 +13,11 @@ module.exports = ({
       {
         ...Object.assign(
           {},
-          ..._.map(pin, (value, name) => ({
-            [`.pin-t-${e(name)}`]: { top: value },
-            [`.pin-r-${e(name)}`]: { right: value },
-            [`.pin-b-${e(name)}`]: { bottom: value },
-            [`.pin-l-${e(name)}`]: { left: value },
+          ..._.map(offset, (value, name) => ({
+            [`.t-${e(name)}`]: { top: value },
+            [`.r-${e(name)}`]: { right: value },
+            [`.b-${e(name)}`]: { bottom: value },
+            [`.l-${e(name)}`]: { left: value },
           })),
           ..._.map(flexGrow, (value, name) => ({
             [`.flex-grow-${e(name)}`]: { flexGrow: value },
@@ -29,13 +29,7 @@ module.exports = ({
             [`.order-${e(name)}`]: { order: value },
           })),
           ..._.map(aspectRatio, (value, name) => ({
-            [`.aspect-ratio-${e(name)}`]: {
-              '&::before': {
-                'content': '""',
-                'display': 'block',
-                'padding-bottom': `${(1 / value) * 100}%`,
-              },
-            },
+            [`.aspect-ratio-${e(name)}`]: { paddingBottom: `${1 / value * 100}%` },
           })),
         ),
       },
