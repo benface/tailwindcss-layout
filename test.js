@@ -18,14 +18,14 @@ plugin({
     '1': '1',
   },
   aspectRatio: {
-    '1/2': 1/2,
-    '16/9': 16/9,
+    '1/2': 1 / 2,
+    '16/9': 16 / 9,
   },
 })({
   e: value => value,
-  addUtilities: (utilities, variants) => {
+  addUtilities: (utilities) => {
     generatedUtilities = utilities;
   },
 });
 
-console.log("generatedUtilities", generatedUtilities);
+console.log('generatedUtilities', generatedUtilities);
