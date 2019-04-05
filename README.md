@@ -12,18 +12,18 @@ npm install tailwindcss-layout
 // In your Tailwind CSS config
 {
   theme: {
-    order: {
+    order: { // defaults to these values
       'first': -99999,
       'last': 99999,
     },
-    aspectRatio: {
+    aspectRatio: { // defaults to {}
       '2/1': 2 / 1,
       '16/9': 16 / 9,
     },
   },
   variants: {
-    order: ['responsive'],
-    aspectRatio: ['responsive'],
+    order: ['responsive'], // defaults to ['responsive']
+    aspectRatio: ['responsive'], // defaults to []
   },
   plugins: [
     require('tailwindcss-layout')(),
@@ -50,5 +50,3 @@ This plugin generates the following utilities:
   padding-bottom: 56.25%;
 }
 ```
-
-Note: When `order` is missing from `theme`, it defaults to the above. Similarly, when `order` is missing from `variants`, it defaults to `['responsive']`. `aspectRatio`, however, has no default theme or variants.
