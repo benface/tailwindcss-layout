@@ -31,8 +31,6 @@ npm install tailwindcss-layout
 }
 ```
 
-Note: When `order` is missing from `theme`, it defaults to the above. Similarly, when `order` is missing from `variants`, it defaults to `['responsive']`. `aspectRatio`, however, has no default theme or variants.
-
 This plugin generates the following utilities:
 
 ```css
@@ -52,3 +50,5 @@ This plugin generates the following utilities:
   padding-bottom: 56.25%;
 }
 ```
+
+Note: When `order` is missing from `theme`, it defaults to the above. Similarly, when `order` is missing from `variants`, it defaults to `['responsive']`. `aspectRatio`, however, has no default theme or variants.
