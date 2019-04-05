@@ -86,6 +86,12 @@ test('the plugin uses the order and aspectRatio theme keys in the tailwind confi
         .sm\\:order-1 {
           order: 1;
         }
+        .sm\\:aspect-ratio-2\\/1 {
+          padding-bottom: 50%;
+        }
+        .sm\\:aspect-ratio-16\\/9 {
+          padding-bottom: 56.25%;
+        }
       }
     `);
   });

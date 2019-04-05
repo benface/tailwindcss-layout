@@ -23,7 +23,7 @@ npm install tailwindcss-layout
   },
   variants: {
     order: ['responsive'], // defaults to ['responsive']
-    aspectRatio: ['responsive'], // defaults to []
+    aspectRatio: ['responsive'], // defaults to ['responsive']
   },
   plugins: [
     require('tailwindcss-layout')(),

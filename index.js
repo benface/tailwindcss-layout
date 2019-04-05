@@ -8,7 +8,7 @@ module.exports = function() {
     };
     const defaultOrderVariants = ['responsive'];
     const defaultAspectRatioTheme = {};
-    const defaultAspectRatioVariants = [];
+    const defaultAspectRatioVariants = ['responsive'];
 
     const orderUtilities = _.fromPairs(
       _.map(config('theme.order', defaultOrderTheme), (value, modifier) => {
@@ -20,6 +20,7 @@ module.exports = function() {
         ];
       })
     );
+
     const aspectRatioUtilities = _.fromPairs(
       _.map(config('theme.aspectRatio', defaultAspectRatioTheme), (value, modifier) => {
         return [
@@ -30,7 +31,7 @@ module.exports = function() {
         ];
       })
     );
-    
+
     addUtilities(orderUtilities, config('variants.order', defaultOrderVariants));
     addUtilities(aspectRatioUtilities, config('variants.aspectRatio', defaultAspectRatioVariants));
   };
