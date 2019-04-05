@@ -2,21 +2,35 @@ const _ = require('lodash');
 const cssMatcher = require('jest-matcher-css');
 const postcss = require('postcss');
 const tailwindcss = require('tailwindcss');
-const defaultConfig = require('tailwindcss/defaultConfig')();
+const defaultConfig = require('tailwindcss/defaultConfig');
 const layoutPlugin = require('./index.js');
 
-const disabledModules = {};
-Object.keys(defaultConfig.modules).forEach(module => {
-  disabledModules[module] = false;
-});
-
-const generatePluginCss = (options = {}) => {
-  return postcss(tailwindcss({
-    modules: disabledModules,
-    plugins: [layoutPlugin(options)],
-  })).process('@tailwind utilities;', {
+const generatePluginCss = (config) => {
+  return postcss(
+    tailwindcss(
+      _.merge({
+        theme: {
+          screens: {
+            'sm': '640px',
+          },
+        },
+        corePlugins: (function() {
+          let disabledCorePlugins = {};
+          Object.keys(defaultConfig.variants).forEach(corePlugin => {
+            disabledCorePlugins[corePlugin] = false;
+          });
+          return disabledCorePlugins;
+        })(),
+        plugins: [
+          layoutPlugin(),
+        ],
+      }, config)
+    )
+  )
+  .process('@tailwind utilities;', {
     from: undefined,
-  }).then(result => {
+  })
+  .then(result => {
     return result.css;
   });
 };
@@ -25,87 +39,88 @@ expect.extend({
   toMatchCss: cssMatcher,
 });
 
-test('there is no output by default', () => {
+test('the plugin generates some responsive order utilities by default', () => {
   return generatePluginCss().then(css => {
-    expect(css).toMatchCss(``);
-  });
-});
-
-test('all the options are working as they should', () => {
-  return generatePluginCss({
-    offset: {
-      'full': '100%',
-    },
-    flexGrow: {
-      '2': '2',
-      '3': '3',
-    },
-    flexShrink: {
-      '2': '2',
-      '3': '3',
-    },
-    order: {
-      '1': '1',
-    },
-    aspectRatio: {
-      '1/2': 1 / 2,
-      '16/9': 16 / 9,
-    },
-  }).then(css => {
     expect(css).toMatchCss(`
-      .t-full {
-        top: 100%;
+      .order-first {
+        order: -99999;
       }
-      .r-full {
-        right: 100%;
+      .order-last {
+        order: 99999;
       }
-      .b-full {
-        bottom: 100%;
-      }
-      .l-full {
-        left: 100%;
-      }
-      .flex-grow-2 {
-        flex-grow: 2;
-      }
-      .flex-grow-3 {
-        flex-grow: 3;
-      }
-      .flex-shrink-2 {
-        flex-shrink: 2;
-      }
-      .flex-shrink-3 {
-        flex-shrink: 3;
-      }
-      .order-1 {
-        order: 1;
-      }
-      .aspect-ratio-1\\/2 {
-        padding-bottom: 200%;
-      }
-      .aspect-ratio-16\\/9 {
-        padding-bottom: 56.25%;
+      @media (min-width: 640px) {
+        .sm\\:order-first {
+          order: -99999;
+        }
+        .sm\\:order-last {
+          order: 99999;
+        }
       }
     `);
   });
 });
 
-test('variants are supported', () => {
+test('the plugin uses the order and aspectRatio theme keys in the tailwind config', () => {
   return generatePluginCss({
-    flexGrow: {
-      '2': '2',
+    theme: {
+      order: {
+        '1': 1,
+      },
+      aspectRatio: {
+        '2/1': 2 / 1,
+        '16/9': 16 / 9,
+      },
     },
-    variants: ['hover', 'active'],
   }).then(css => {
     expect(css).toMatchCss(`
-      .flex-grow-2 {
-        flex-grow: 2;
+      .order-1 {
+        order: 1;
       }
-      .hover\\:flex-grow-2:hover {
-        flex-grow: 2;
+      .aspect-ratio-2\\/1 {
+        padding-bottom: 50%;
       }
-      .active\\:flex-grow-2:active {
-        flex-grow: 2;
+      .aspect-ratio-16\\/9 {
+        padding-bottom: 56.25%;
+      }
+      @media (min-width: 640px) {
+        .sm\\:order-1 {
+          order: 1;
+        }
+      }
+    `);
+  });
+});
+
+test('the plugin uses the variants set in the tailwind config', () => {
+  return generatePluginCss({
+    theme: {
+      order: {
+        'first': -99999,
+      },
+      aspectRatio: {
+        '2/1': 2 / 1,
+      },
+    },
+    variants: {
+      order: ['hover', 'active'],
+      aspectRatio: ['hover'],
+    },
+  }).then(css => {
+    expect(css).toMatchCss(`
+      .order-first {
+        order: -99999;
+      }
+      .hover\\:order-first:hover {
+        order: -99999;
+      }
+      .active\\:order-first:active {
+        order: -99999;
+      }
+      .aspect-ratio-2\\/1 {
+        padding-bottom: 50%;
+      }
+      .hover\\:aspect-ratio-2\\/1:hover {
+        padding-bottom: 50%;
       }
     `);
   });

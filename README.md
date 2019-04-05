@@ -1,4 +1,4 @@
-# Layout Tailwind CSS Plugin
+# Layout Plugin for Tailwind CSS
 
 ## Installation
 
@@ -11,65 +11,43 @@ npm install tailwindcss-layout
 ```js
 // In your Tailwind CSS config
 {
+  theme: {
+    order: {
+      'first': -99999,
+      'last': 99999,
+    },
+    aspectRatio: {
+      '2/1': 2 / 1,
+      '16/9': 16 / 9,
+    },
+  },
+  variants: {
+    order: ['responsive'],
+    aspectRatio: ['responsive'],
+  },
   plugins: [
-    require('tailwindcss-layout')({
-      variants: ['responsive'],
-      offset: {
-        'full': '100%',
-      },
-      flexGrow: {
-        '2': '2',
-        '3': '3',
-      },
-      flexShrink: {
-        '2': '2',
-        '3': '3',
-      },
-      order: {
-        '1': '1',
-      },
-      aspectRatio: {
-        '1/2': 1/2,
-        '16/9': 16/9,
-      },
-    }),
+    require('tailwindcss-layout')(),
   ],
 }
 ```
 
+Note: When `order` is missing from `theme`, it defaults to the above values. Similarly, when `order` is missing from `variants`, it defaults to `['responsive']`. `aspectRatio`, however, has no theme or variants defaults.
+
 This plugin generates the following utilities:
 
 ```css
-/* configurable with the "offset" option */
-.t-[name] {
-  top: [value];
-}
-.r-[name] {
-  right: [value];
-}
-.b-[name] {
-  bottom: [value];
-}
-.l-[name] {
-  left: [value];
-}
-
-/* configurable with the "flexGrow" option */
-.flex-grow-[name] {
-  flex-grow: [value];
-}
-
-/* configurable with the "flexShrink" option */
-.flex-shrink-[name] {
-  flex-shrink: [value];
-}
-
 /* configurable with the "order" option */
-.order-[name] {
-  order: [value];
+.order-first {
+  order: -99999;
+}
+.order-last {
+  order: 99999;
 }
 
 /* configurable with the "aspectRatio" option */
+.aspect-ratio-2\/1 {
+  padding-bottom: 50%;
+}
 .aspect-ratio-16\/9 {
   padding-bottom: 56.25%;
 }
