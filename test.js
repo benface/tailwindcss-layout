@@ -39,7 +39,7 @@ expect.extend({
   toMatchCss: cssMatcher,
 });
 
-test('the plugin generates some responsive order utilities by default', () => {
+test('the plugin generates order utilities and responsive variants by default', () => {
   return generatePluginCss().then(css => {
     expect(css).toMatchCss(`
       .order-first {
@@ -60,7 +60,7 @@ test('the plugin generates some responsive order utilities by default', () => {
   });
 });
 
-test('the plugin uses the order and aspectRatio theme keys in the tailwind config', () => {
+test('order and aspect ratio utilities can be customized', () => {
   return generatePluginCss({
     theme: {
       order: {
@@ -97,7 +97,7 @@ test('the plugin uses the order and aspectRatio theme keys in the tailwind confi
   });
 });
 
-test('the plugin uses the variants set in the tailwind config', () => {
+test('variants can be customized', () => {
   return generatePluginCss({
     theme: {
       order: {

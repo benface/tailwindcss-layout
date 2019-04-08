@@ -9,7 +9,7 @@ npm install tailwindcss-layout
 ## Usage
 
 ```js
-// In your Tailwind CSS config
+// tailwind.config.js
 {
   theme: {
     order: { // defaults to these values
@@ -34,7 +34,7 @@ npm install tailwindcss-layout
 This plugin generates the following utilities:
 
 ```css
-/* configurable with the "order" theme key */
+/* configurable with the "order" theme object */
 .order-first {
   order: -99999;
 }
@@ -42,7 +42,7 @@ This plugin generates the following utilities:
   order: 99999;
 }
 
-/* configurable with the "aspectRatio" theme key */
+/* configurable with the "aspectRatio" theme object */
 .aspect-ratio-2\/1 {
   padding-bottom: 50%;
 }
