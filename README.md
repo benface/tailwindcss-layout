@@ -1,3 +1,7 @@
+# ⛔️ DEPRECATED
+
+Tailwind CSS 1.0 (released in May 2019) now includes everything that this plugin used to offer except aspect ratio utilities. Therefore you should be using the smaller, more appropriately named [`tailwindcss-aspect-ratio`](https://github.com/webdna/tailwindcss-aspect-ratio) plugin instead. Thank you!
+
 # Layout Tailwind CSS Plugin
 
 ## Installation
